@@ -1,2 +1,4 @@
-# CROMTEL-mining
-Official CROMTEL Token Mining Application
+
+# CROMTEL NETWORK
+
+Official CROMTEL Network Platform
