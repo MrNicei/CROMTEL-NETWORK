@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { createRoot } from "react-dom/client";
 
 import "./style.css";
-
+import { supabase } from "./supabase";
 function App() {
   const [mining, setMining] = useState(false);
 
