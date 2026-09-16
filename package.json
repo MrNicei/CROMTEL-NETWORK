@@ -1,3 +1,4 @@
+
 {
   "name": "cromtel-mining",
   "private": true,
@@ -5,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "build": "vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
