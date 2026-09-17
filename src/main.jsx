@@ -114,16 +114,16 @@ function App() {
     setLoading(true);
 
     if (authMode === "signup") {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            username: username.trim(),
-          },
-        },
-      });
-
+const { error } = await supabase.auth.signUp({
+  email,
+  password,
+  options: {
+    emailRedirectTo: "https://cromtel-network.netlify.app",
+    data: {
+      username: username.trim(),
+    },
+  },
+});
       if (error) {
         setMessage(error.message);
       } else {
