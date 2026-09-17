@@ -152,20 +152,37 @@ const { error } = await supabase.auth.signUp({
     await supabase.auth.signOut();
   }
 
+  
   async function startMining() {
-    if (!session?.user) return;
+  if (!session) {
+    setMessage("Please sign in first.");
+    return;
+  }
 
-    setMessage("");
+  setMessage("");
+  setLoading(true);
 
-    const { data, error } = await supabase
-      .from("mining_sessions")
-      .insert({
-        user_id: session.user.id,
-        mining_rate: 0,
-        status: "active",
-      })
-      .select("id")
-      .single();
+  const { data, error } = await supabase
+    .from("mining_sessions")
+    .insert({
+      user_id: session.user.id,
+      mining_rate: 0,
+      status: "active",
+    })
+    .select("id")
+    .single();
+
+  if (error) {
+    setMessage("Mining error: " + error.message);
+    setLoading(false);
+    return;
+  }
+
+  setMining(true);
+  setMiningId(data.id);
+  setMessage("Mining started successfully!");
+  setLoading(false);
+  }
 
     if (error) {
       setMessage(error.message);
@@ -339,10 +356,18 @@ const { error } = await supabase.auth.signUp({
             in the CROMTEL Network ecosystem.
           </p>
 
-          <button onClick={mining ? stopMining : startMining}>
-            {mining ? "Stop Mining" : "Start Mining"}
-          </button>
-
+          <button
+  type="button"
+  onClick={mining ? stopMining : startMining}
+  disabled={loading}
+>
+  {loading
+    ? "Starting..."
+    : mining
+    ? "Stop Mining"
+    : "Start Mining"}
+</button>
+            
           <p className="notice">
             Demo interface — mining rewards are not
             connected to a blockchain yet.
