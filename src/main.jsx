@@ -152,7 +152,6 @@ const { error } = await supabase.auth.signUp({
     await supabase.auth.signOut();
   }
 
-  
   async function startMining() {
   if (!session) {
     setMessage("Please sign in first.");
@@ -167,7 +166,7 @@ const { error } = await supabase.auth.signUp({
     .insert({
       user_id: session.user.id,
       mining_rate: 0,
-      status: "active",
+      status: "active"
     })
     .select("id")
     .single();
@@ -182,16 +181,7 @@ const { error } = await supabase.auth.signUp({
   setMiningId(data.id);
   setMessage("Mining started successfully!");
   setLoading(false);
-  }
-
-    if (error) {
-      setMessage(error.message);
-      return;
-    }
-
-    setMining(true);
-    setMiningId(data.id);
-  }
+}
 
   async function stopMining() {
     if (!miningId) return;
