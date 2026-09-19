@@ -184,29 +184,26 @@ const { error } = await supabase.auth.signUp({
 }
 
   async function stopMining() {
-    if (!miningId) return;
+  if (!miningId) return;
 
-    const { error } = await supabase
-      .from("mining_sessions")
-      .update({
-        status: "completed",
-        ended_at: new Date().toISOString(),
-      })
-      .eq("id", miningId);
+  const { error } = await supabase
+    .from("mining_sessions")
+    .update({
+      status: "completed",
+      ends_at: new Date().toISOString()
+    })
+    .eq("id", miningId);
 
-    if (error) {
-      setMessage(error.message);
-      return;
-    }
-
-    setMining(false);
-    setMiningId(null);
+  if (error) {
+    setMessage(error.message);
+    return;
   }
 
-  if (loading) {
-    return <div className="app">Loading CROMTEL NETWORK...</div>;
-  }
-
+  setMining(false);
+  setMiningId(null);
+  setMessage("Mining stopped successfully!");
+}
+    
   if (!session) {
     return (
       <div className="app">
