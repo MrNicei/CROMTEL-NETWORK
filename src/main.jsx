@@ -165,7 +165,9 @@ const { error } = await supabase.auth.signUp({
     .from("mining_sessions")
     .insert({
       user_id: session.user.id,
-      mining_rate: 0,
+      mining_rate: 1,
+      started_at: new Date().toISOString(),
+      earned_amount: 0,
       status: "active"
     })
     .select("id")
