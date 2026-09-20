@@ -419,7 +419,7 @@ setTimeRemaining(0);
     onClick={mining ? stopMining : startMining}
     disabled={loading}
     className={mining ? "stop-button" : "start-button"}
-  >
+>
     {loading
       ? "Processing..."
       : mining
