@@ -16,6 +16,56 @@ function App() {
   const [balance, setBalance] = useState(0);
   const [mining, setMining] = useState(false);
   const [miningId, setMiningId] = useState(null);
+  const [miningEndsAt, setMiningEndsAt] = useState(null);
+const [timeRemaining, setTimeRemaining] = useState(0);
+  
+  function formatTimeRemaining(milliseconds) {
+  if (milliseconds <= 0) {
+    return "00:00:00";
+  }
+
+  const totalSeconds = Math.floor(milliseconds / 1000);
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return [
+    hours.toString().padStart(2, "0"),
+    minutes.toString().padStart(2, "0"),
+    seconds.toString().padStart(2, "0")
+  ].join(":");
+}
+
+  useEffect(() => {
+  if (!miningEndsAt || !mining) {
+    setTimeRemaining(0);
+    return;
+  }
+
+  const updateCountdown = () => {
+    const remaining =
+      new Date(miningEndsAt).getTime() - Date.now();
+
+    setTimeRemaining(Math.max(0, remaining));
+
+    if (remaining <= 0) {
+      setMessage(
+        "Mining circle completed. Updating your CML balance..."
+      );
+
+      if (session?.user?.id) {
+        loadUserData(session.user.id);
+      }
+    }
+  };
+
+  updateCountdown();
+
+  const timer = setInterval(updateCountdown, 1000);
+
+  return () => clearInterval(timer);
+}, [miningEndsAt, mining, session]);
 
   useEffect(() => {
     let mounted = true;
@@ -81,22 +131,23 @@ function App() {
 
     const { data: miningData } = await supabase
       .from("mining_sessions")
-      .select("id, status")
+.select("id,status,started_at,ends_at,mining_rate,earned_amount")
       .eq("user_id", userId)
       .eq("status", "active")
       .order("started_at", { ascending: false })
       .limit(1)
       .maybeSingle();
 
-    if (miningData) {
-      setMining(true);
-      setMiningId(miningData.id);
-    } else {
-      setMining(false);
-      setMiningId(null);
-    }
-  }
-
+    if (miningSession) {
+  setMining(true);
+  setMiningId(miningSession.id);
+  setMiningEndsAt(miningSession.ends_at);
+} else {
+  setMining(false);
+  setMiningId(null);
+  setMiningEndsAt(null);
+}
+      
   async function handleAuth(event) {
     event.preventDefault();
     setMessage("");
@@ -188,9 +239,9 @@ const { error } = await supabase.auth.signUp({
   }
 
   setMining(true);
-  setMiningId(data.id);
-  setMessage("Mining started successfully!");
-  setLoading(false);
+setMiningId(data.id);
+setMiningEndsAt(data.ends_at);
+  
 }
 
   async function stopMining() {
@@ -216,6 +267,8 @@ const { error } = await supabase.auth.signUp({
 
   setMining(false);
   setMiningId(null);
+setMiningEndsAt(null);
+setTimeRemaining(0);
   setLoading(false);
 
   setMessage(
@@ -317,64 +370,64 @@ const { error } = await supabase.auth.signUp({
   }
 
   return (
-    <div className="app">
-      <header className="header">
-        <div className="logo">⚡</div>
-        <div>
-          <h1>CROMTEL NETWORK</h1>
-          <p>APPLICATION</p>
-        </div>
+    <div className="mining-card">
 
-        <button className="logout" onClick={logout}>
-          Logout
-        </button>
-      </header>
+  <div className="mining-header">
+    <div>
+      <h2>⛏️ CROMTEL Mining</h2>
+      <p>Complete a 12-hour mining circle.</p>
+    </div>
 
-      <main className="container">
-        <section className="welcome">
-          <h2>
-            Welcome, {profile?.username || "CROMTEL User"} 👋
-          </h2>
-          <p>Your digital network starts here.</p>
-        </section>
+    <div className={mining ? "status active" : "status inactive"}>
+      {mining ? "● ACTIVE" : "● INACTIVE"}
+    </div>
+  </div>
 
-        <section className="balance-card">
-          <p>Total Balance</p>
-          <h2>{balance.toFixed(2)} CROMTEL</h2>
-          <span>Available balance</span>
-        </section>
+  <div className="mining-stats">
 
-        <section className="stats">
-          <div className="stat">
-            <span>Mining Status</span>
-            <strong>{mining ? "Active" : "Inactive"}</strong>
-          </div>
+    <div className="stat-box">
+      <span>Circle Reward</span>
+      <strong>200 CML</strong>
+    </div>
 
-          <div className="stat">
-            <span>Mining Rate</span>
-            <strong>0.00 / hr</strong>
-          </div>
-        </section>
+    <div className="stat-box">
+      <span>Mining Rate</span>
+      <strong>16.67 CML/hr</strong>
+    </div>
 
-        <section className="mining-card">
-          <h2>⛏ CROMTEL Mining</h2>
+  </div>
 
-          <p>
-            Start your mining session and participate
-            in the CROMTEL Network ecosystem.
-          </p>
+  {mining && (
+    <div className="countdown-box">
 
-          <button
-  type="button"
-  onClick={mining ? stopMining : startMining}
-  disabled={loading}
->
-  {loading
-    ? "Starting..."
-    : mining
-    ? "Stop Mining"
-    : "Start Mining"}
-</button>
+      <span>TIME REMAINING</span>
+
+      <strong>
+        {formatTimeRemaining(timeRemaining)}
+      </strong>
+
+      {miningEndsAt && (
+        <small>
+          Ends: {new Date(miningEndsAt).toLocaleString()}
+        </small>
+      )}
+
+    </div>
+  )}
+
+  <button
+    onClick={mining ? stopMining : startMining}
+    disabled={loading}
+    className={mining ? "stop-button" : "start-button"}
+  >
+    {loading
+      ? "Processing..."
+      : mining
+        ? "Stop Mining"
+        : "Start Mining"}
+  </button>
+
+</div>
             
           <p className="notice">
             Demo interface — mining rewards are not
