@@ -161,16 +161,24 @@ const { error } = await supabase.auth.signUp({
   setMessage("");
   setLoading(true);
 
+  const startedAt = new Date();
+  const endsAt = new Date(
+    startedAt.getTime() + 12 * 60 * 60 * 1000
+  );
+
+  const miningRate = 200 / 12;
+
   const { data, error } = await supabase
     .from("mining_sessions")
     .insert({
       user_id: session.user.id,
-      mining_rate: 1,
-      started_at: new Date().toISOString(),
+      mining_rate: miningRate,
+      started_at: startedAt.toISOString(),
+      ends_at: endsAt.toISOString(),
       earned_amount: 0,
       status: "active"
     })
-    .select("id")
+    .select("id, started_at, ends_at, mining_rate")
     .single();
 
   if (error) {
