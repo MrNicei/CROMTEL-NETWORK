@@ -188,24 +188,35 @@ const { error } = await supabase.auth.signUp({
   async function stopMining() {
   if (!miningId) return;
 
-  const { error } = await supabase
-    .from("mining_sessions")
-    .update({
-      status: "completed",
-      ends_at: new Date().toISOString()
-    })
-    .eq("id", miningId);
+  setLoading(true);
+  setMessage("");
+
+  const { data, error } = await supabase.rpc(
+    "calculate_mining_reward",
+    {
+      p_session_id: miningId
+    }
+  );
 
   if (error) {
-    setMessage(error.message);
+    setMessage("Mining error: " + error.message);
+    setLoading(false);
     return;
   }
 
+  const earned = Number(data || 0);
+
   setMining(false);
   setMiningId(null);
-  setMessage("Mining stopped successfully!");
+  setLoading(false);
+
+  setMessage(
+    `Mining stopped successfully! You earned ${earned.toFixed(6)} CROMTEL.`
+  );
+
+  await loadUserData(session.user.id);
 }
-    
+
   if (!session) {
     return (
       <div className="app">
