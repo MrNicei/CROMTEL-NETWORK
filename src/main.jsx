@@ -106,6 +106,7 @@ const [timeRemaining, setTimeRemaining] = useState(0);
       setMining(false);
       setMiningId(null);
     }
+  }
   }, [session]);
 
   async function loadUserData(userId) {
@@ -140,8 +141,10 @@ const [timeRemaining, setTimeRemaining] = useState(0);
 
     if (miningData) {
   setMining(true);
-  setMiningId(miningSession.id);
-  setMiningEndsAt(miningSession.ends_at);
+  setMiningId(miningData.id);
+setMiningEndsAt(miningData.ends_at);
+      setMessage("Mining started successfully!");
+setLoading(false);
 } else {
   setMining(false);
   setMiningId(null);
@@ -302,11 +305,8 @@ setTimeRemaining(0);
           Welcome, {profile?.username || "CROMTEL User"} 👋
         </h2>
 
-        <p>
-          Your digital network starts here.
-        </p>
+        <p>Your digital network starts here.</p>
       </section>
-
 
       <section className="balance-card">
 
@@ -336,7 +336,6 @@ setTimeRemaining(0);
 
       </section>
 
-
       <section className="mining-card">
 
         <div className="mining-header">
@@ -363,7 +362,6 @@ setTimeRemaining(0);
 
         </div>
 
-
         <div className="mining-stats">
 
           <div className="stat-box">
@@ -377,7 +375,6 @@ setTimeRemaining(0);
           </div>
 
         </div>
-
 
         {mining && (
           <div className="countdown-box">
@@ -400,7 +397,6 @@ setTimeRemaining(0);
           </div>
         )}
 
-
         <button
           onClick={
             mining
@@ -421,12 +417,9 @@ setTimeRemaining(0);
               : "Start Mining"}
         </button>
 
-
         <p className="notice">
-          CROMTEL mining rewards are currently
-          managed by the CROMTEL Network reward system.
+          CROMTEL Network reward system is active.
         </p>
-
 
         {message && (
           <p className="notice">
@@ -435,7 +428,6 @@ setTimeRemaining(0);
         )}
 
       </section>
-
 
       <section className="menu">
 
@@ -452,7 +444,6 @@ setTimeRemaining(0);
       </section>
 
     </main>
-
 
     <footer>
       © 2026 CROMTEL NETWORK APPLICATION
