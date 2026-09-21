@@ -138,7 +138,7 @@ const [timeRemaining, setTimeRemaining] = useState(0);
       .limit(1)
       .maybeSingle();
 
-    if (miningSession) {
+    if (miningData) {
   setMining(true);
   setMiningId(miningSession.id);
   setMiningEndsAt(miningSession.ends_at);
@@ -280,176 +280,186 @@ setTimeRemaining(0);
 
   if (!session) {
     return (
-      <div className="app">
-        <header className="header">
-          <div className="logo">⚡</div>
-          <div>
-            <h1>CROMTEL NETWORK</h1>
-            <p>APPLICATION</p>
-          </div>
-        </header>
+  <div className="app">
 
-        <main className="container">
-          <section className="welcome">
-            <h2>
-              {authMode === "login"
-                ? "Welcome Back"
-                : "Create Your Account"}
-            </h2>
+    <header className="header">
+      <div className="logo">⚡</div>
+
+      <div>
+        <h1>CROMTEL NETWORK</h1>
+        <p>APPLICATION</p>
+      </div>
+
+      <button onClick={logout}>
+        Logout
+      </button>
+    </header>
+
+    <main className="container">
+
+      <section className="welcome">
+        <h2>
+          Welcome, {profile?.username || "CROMTEL User"} 👋
+        </h2>
+
+        <p>
+          Your digital network starts here.
+        </p>
+      </section>
+
+
+      <section className="balance-card">
+
+        <span>Total Balance</span>
+
+        <strong>
+          {balance.toFixed(2)} CML
+        </strong>
+
+        <div className="balance-info">
+
+          <div>
+            <span>Mining Status</span>
+            <strong>
+              {mining ? "ACTIVE" : "INACTIVE"}
+            </strong>
+          </div>
+
+          <div>
+            <span>Mining Rate</span>
+            <strong>
+              {mining ? "16.67 CML/hr" : "0.00 CML/hr"}
+            </strong>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section className="mining-card">
+
+        <div className="mining-header">
+
+          <div>
+            <h2>⛏️ CROMTEL Mining</h2>
 
             <p>
-              {authMode === "login"
-                ? "Login to access your CROMTEL Network dashboard."
-                : "Join the CROMTEL Network community today."}
+              Complete a 12-hour mining circle.
             </p>
-          </section>
+          </div>
 
-          <form className="auth-card" onSubmit={handleAuth}>
-            <h2>
-              {authMode === "login" ? "Sign In" : "Sign Up"}
-            </h2>
+          <div
+            className={
+              mining
+                ? "status active"
+                : "status inactive"
+            }
+          >
+            {mining
+              ? "● ACTIVE"
+              : "● INACTIVE"}
+          </div>
 
-            {authMode === "signup" && (
-              <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
+        </div>
+
+
+        <div className="mining-stats">
+
+          <div className="stat-box">
+            <span>Circle Reward</span>
+            <strong>200 CML</strong>
+          </div>
+
+          <div className="stat-box">
+            <span>Mining Rate</span>
+            <strong>16.67 CML/hr</strong>
+          </div>
+
+        </div>
+
+
+        {mining && (
+          <div className="countdown-box">
+
+            <span>TIME REMAINING</span>
+
+            <strong>
+              {formatTimeRemaining(timeRemaining)}
+            </strong>
+
+            {miningEndsAt && (
+              <small>
+                Ends:{" "}
+                {new Date(
+                  miningEndsAt
+                ).toLocaleString()}
+              </small>
             )}
 
-            <input
-              type="email"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+          </div>
+        )}
 
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-            />
 
-            <button type="submit">
-              {authMode === "login"
-                ? "Login"
-                : "Create Account"}
-            </button>
+        <button
+          onClick={
+            mining
+              ? stopMining
+              : startMining
+          }
+          disabled={loading}
+          className={
+            mining
+              ? "stop-button"
+              : "start-button"
+          }
+        >
+          {loading
+            ? "Processing..."
+            : mining
+              ? "Stop Mining"
+              : "Start Mining"}
+        </button>
 
-            {message && <p className="notice">{message}</p>}
-          </form>
 
-          <p className="switch-auth">
-            {authMode === "login"
-              ? "Don't have an account?"
-              : "Already have an account?"}
+        <p className="notice">
+          CROMTEL mining rewards are currently
+          managed by the CROMTEL Network reward system.
+        </p>
 
-            <button
-              className="link-button"
-              onClick={() => {
-                setAuthMode(
-                  authMode === "login" ? "signup" : "login"
-                );
-                setMessage("");
-              }}
-            >
-              {authMode === "login" ? "Sign Up" : "Login"}
-            </button>
-          </p>
-        </main>
 
-        <footer>© 2026 CROMTEL NETWORK APPLICATION</footer>
-      </div>
-    );
-  }
-
-  return (
-    <div className="mining-card">
-
-  <div className="mining-header">
-    <div>
-      <h2>⛏️ CROMTEL Mining</h2>
-      <p>Complete a 12-hour mining circle.</p>
-    </div>
-
-    <div className={mining ? "status active" : "status inactive"}>
-      {mining ? "● ACTIVE" : "● INACTIVE"}
-    </div>
-  </div>
-
-  <div className="mining-stats">
-
-    <div className="stat-box">
-      <span>Circle Reward</span>
-      <strong>200 CML</strong>
-    </div>
-
-    <div className="stat-box">
-      <span>Mining Rate</span>
-      <strong>16.67 CML/hr</strong>
-    </div>
-
-  </div>
-
-  {mining && (
-    <div className="countdown-box">
-
-      <span>TIME REMAINING</span>
-
-      <strong>
-        {formatTimeRemaining(timeRemaining)}
-      </strong>
-
-      {miningEndsAt && (
-        <small>
-          Ends: {new Date(miningEndsAt).toLocaleString()}
-        </small>
-      )}
-
-    </div>
-  )}
-
-  <button
-  onClick={mining ? stopMining : startMining}
-  disabled={loading}
-  className={mining ? "stop-button" : "start-button"}
->
-    {loading
-      ? "Processing..."
-      : mining
-        ? "Stop Mining"
-        : "Start Mining"}
-  </button>
-
-</div>
-            
+        {message && (
           <p className="notice">
-            Demo interface — mining rewards are not
-            connected to a blockchain yet.
+            {message}
           </p>
+        )}
 
-          {message && <p className="notice">{message}</p>}
-        </section>
+      </section>
 
-        <section className="menu">
-          <div>👤 My Profile</div>
-          <div>💰 My Balance</div>
-          <div>⛏ Mining Sessions</div>
-          <div>🔗 Referrals</div>
-          <div>📋 Transactions</div>
-        </section>
-      </main>
 
-      <footer>© 2026 CROMTEL NETWORK APPLICATION</footer>
-    </div>
-  );
-}
+      <section className="menu">
+
+        <div>👤 My Profile</div>
+
+        <div>💰 My Balance</div>
+
+        <div>⛏️ Mining Sessions</div>
+
+        <div>🔗 Referrals</div>
+
+        <div>📋 Transactions</div>
+
+      </section>
+
+    </main>
+
+
+    <footer>
+      © 2026 CROMTEL NETWORK APPLICATION
+    </footer>
+
+  </div>
+);
 
 createRoot(document.getElementById("root")).render(
   <App />
