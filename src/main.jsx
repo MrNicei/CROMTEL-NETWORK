@@ -19,6 +19,10 @@ function App() {
   const [timeRemaining, setTimeRemaining] = useState(0);
 
   const completionAttempted = useRef(null);
+  const [phone, setPhone] = useState("");
+const [phoneOtp, setPhoneOtp] = useState("");
+const [phoneVerificationStep, setPhoneVerificationStep] = useState("phone");
+const [phoneLoading, setPhoneLoading] = useState(false);
 
   function formatTimeRemaining(milliseconds) {
     if (milliseconds <= 0) {
@@ -40,7 +44,7 @@ function App() {
   async function loadUserData(userId) {
     const { data: profileData } = await supabase
       .from("profiles")
-      .select("username, referral_code")
+      .select("username, referral_code, phone")
       .eq("id", userId)
       .maybeSingle();
 
@@ -247,6 +251,70 @@ function App() {
   async function logout() {
     await supabase.auth.signOut();
   }
+
+  const sendPhoneVerification = async () => {
+  if (!phone.trim()) {
+    setMessage("Please enter your mobile number.");
+    return;
+  }
+
+  if (!phone.startsWith("+")) {
+    setMessage(
+      "Please enter your mobile number in international format, e.g. +2348012345678."
+    );
+    return;
+  }
+
+  setPhoneLoading(true);
+  setMessage("");
+
+  const { error } = await supabase.auth.updateUser({
+    phone: phone.trim(),
+  });
+
+  if (error) {
+    setMessage(`Phone verification error: ${error.message}`);
+    setPhoneLoading(false);
+    return;
+  }
+
+  setPhoneVerificationStep("otp");
+  setMessage("Verification code sent to your mobile phone.");
+  setPhoneLoading(false);
+};
+
+
+const verifyPhoneNumber = async () => {
+  if (!phoneOtp.trim()) {
+    setMessage("Please enter the 6-digit verification code.");
+    return;
+  }
+
+  setPhoneLoading(true);
+  setMessage("");
+
+  const { error } = await supabase.auth.verifyOtp({
+    phone: phone.trim(),
+    token: phoneOtp.trim(),
+    type: "phone_change",
+  });
+
+  if (error) {
+    setMessage(`Verification error: ${error.message}`);
+    setPhoneLoading(false);
+    return;
+  }
+
+  await loadUserData();
+
+  setPhoneOtp("");
+  setPhoneVerificationStep("phone");
+  setMessage(
+    "Mobile number verified successfully. It is now permanently linked to your CROMTEL account."
+  );
+
+  setPhoneLoading(false);
+};
 
   async function startMining() {
     if (!session) {
@@ -539,6 +607,79 @@ function App() {
           </div>
 
         </section>
+
+        <div className="phone-card">
+  <div className="phone-card-header">
+    <div>
+      <h3>Mobile Verification</h3>
+      <p>
+        {profile?.phone
+          ? "Your mobile number is permanently verified."
+          : "Verify your mobile number to secure your CROMTEL account."}
+      </p>
+    </div>
+
+    <span className={profile?.phone ? "phone-status verified" : "phone-status"}>
+      {profile?.phone ? "VERIFIED" : "NOT VERIFIED"}
+    </span>
+  </div>
+
+  {profile?.phone ? (
+    <div className="verified-phone-box">
+      <strong>📱 {profile.phone}</strong>
+      <p>
+        This number is permanently linked to this CROMTEL account and cannot
+        be changed.
+      </p>
+    </div>
+  ) : phoneVerificationStep === "phone" ? (
+    <div className="phone-form">
+      <input
+        type="tel"
+        value={phone}
+        onChange={(e) => setPhone(e.target.value)}
+        placeholder="+2348012345678"
+        disabled={phoneLoading}
+      />
+
+      <button
+        type="button"
+        onClick={sendPhoneVerification}
+        disabled={phoneLoading}
+        className="verify-phone-button"
+      >
+        {phoneLoading ? "Sending Code..." : "Send Verification Code"}
+      </button>
+    </div>
+  ) : (
+    <div className="phone-form">
+      <p className="otp-message">
+        Enter the 6-digit code sent to <strong>{phone}</strong>.
+      </p>
+
+      <input
+        type="text"
+        inputMode="numeric"
+        maxLength="6"
+        value={phoneOtp}
+        onChange={(e) =>
+          setPhoneOtp(e.target.value.replace(/\D/g, ""))
+        }
+        placeholder="Enter 6-digit OTP"
+        disabled={phoneLoading}
+      />
+
+      <button
+        type="button"
+        onClick={verifyPhoneNumber}
+        disabled={phoneLoading}
+        className="verify-phone-button"
+      >
+        {phoneLoading ? "Verifying..." : "Verify Mobile Number"}
+      </button>
+    </div>
+  )}
+</div>
 
         <section className="mining-card">
 
