@@ -45,8 +45,15 @@ function App() {
       .maybeSingle();
 
     if (profileData) {
-      setProfile(profileData);
-    }
+  setProfile(profileData);
+} else {
+  setProfile({
+    username:
+      session?.user?.user_metadata?.username ||
+      session?.user?.email?.split("@")[0] ||
+      "CROMTEL User"
+  });
+}
 
     const { data: balanceData } = await supabase
       .from("balances")
