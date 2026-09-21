@@ -151,3 +151,104 @@ button:disabled {
     font-size: 30px;
   }
 }
+
+/* Mobile Verification */
+
+.phone-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.phone-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.phone-card h3 {
+  margin: 0 0 6px;
+  font-size: 20px;
+}
+
+.phone-card p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.phone-status {
+  background: #fff3cd;
+  color: #856404;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.phone-status.verified {
+  background: #d4edda;
+  color: #155724;
+}
+
+.phone-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phone-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+}
+
+.phone-form input:focus {
+  border-color: #2563eb;
+}
+
+.verify-phone-button {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.verify-phone-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.verified-phone-box {
+  background: #f0fff4;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.verified-phone-box strong {
+  display: block;
+  margin-bottom: 7px;
+}
+
+.otp-message {
+  margin-bottom: 4px !important;
+}
+
+@media (max-width: 600px) {
+  .phone-card-header {
+    flex-direction: column;
+  }
+}
