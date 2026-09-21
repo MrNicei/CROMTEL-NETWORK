@@ -420,7 +420,6 @@ setTimeRemaining(0);
   disabled={loading}
   className={mining ? "stop-button" : "start-button"}
 >
-
     {loading
       ? "Processing..."
       : mining
