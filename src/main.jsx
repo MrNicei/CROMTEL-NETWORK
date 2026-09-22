@@ -256,6 +256,38 @@ const [referralLoading, setReferralLoading] = useState(false);
     await supabase.auth.signOut();
   }
 
+  const applyReferralCode = async () => {
+  if (!referralInput.trim()) {
+    setMessage("Please enter a referral code.");
+    return;
+  }
+
+  setReferralLoading(true);
+  setMessage("");
+
+  const { data, error } = await supabase.rpc("apply_referral", {
+    p_referral_code: referralInput.trim(),
+  });
+
+  if (error) {
+    setMessage(`Referral error: ${error.message}`);
+    setReferralLoading(false);
+    return;
+  }
+
+  if (data?.success) {
+    await loadUserData(session.user.id);
+
+    setReferralInput("");
+
+    setMessage(
+      "Referral applied successfully! You received 200 CML and the referrer received 100 CML."
+    );
+  }
+
+  setReferralLoading(false);
+};
+
   const sendPhoneVerification = async () => {
   if (!phone.trim()) {
     setMessage("Please enter your mobile number.");
