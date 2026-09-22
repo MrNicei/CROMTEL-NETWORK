@@ -657,9 +657,9 @@ const verifyPhoneNumber = async () => {
   </div>
 
   <div className="referral-code-box">
-    <span>Your Referral Code</span>
-    <strong>{referralCode || "Loading..."}</strong>
-  </div>
+  <span>Your Referral Code</span>
+  <strong>{profile?.referral_code || "Loading..."}</strong>
+</div>
 
   <div className="referral-form">
     <input
