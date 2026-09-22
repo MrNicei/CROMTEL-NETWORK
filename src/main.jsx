@@ -644,6 +644,51 @@ const verifyPhoneNumber = async () => {
 
         </section>
 
+        <div className="referral-card">
+  <div className="referral-card-header">
+    <div>
+      <h3>Referral Program</h3>
+      <p>Invite friends and earn CML rewards.</p>
+    </div>
+  </div>
+
+  <div className="referral-code-box">
+    <span>Your Referral Code</span>
+    <strong>{referralCode || "Loading..."}</strong>
+  </div>
+
+  <div className="referral-form">
+    <input
+      type="text"
+      value={referralInput}
+      onChange={(e) => setReferralInput(e.target.value.toUpperCase())}
+      placeholder="Enter referral code"
+      disabled={referralLoading}
+    />
+
+    <button
+      type="button"
+      onClick={applyReferralCode}
+      disabled={referralLoading}
+      className="referral-button"
+    >
+      {referralLoading ? "Applying..." : "Apply Referral Code"}
+    </button>
+  </div>
+
+  <div className="referral-rewards">
+    <div>
+      <strong>+100 CML</strong>
+      <span>For your referrer</span>
+    </div>
+
+    <div>
+      <strong>+200 CML</strong>
+      <span>Your welcome bonus</span>
+    </div>
+  </div>
+</div>
+
         <section className="mining-card">
 
           <div className="mining-header">
