@@ -23,7 +23,10 @@ function App() {
 const [phoneOtp, setPhoneOtp] = useState("");
 const [phoneVerificationStep, setPhoneVerificationStep] = useState("phone");
 const [phoneLoading, setPhoneLoading] = useState(false);
-
+  
+const [referralCode, setReferralCode] = useState("");
+const [referralInput, setReferralInput] = useState("");
+const [referralLoading, setReferralLoading] = useState(false);
   function formatTimeRemaining(milliseconds) {
     if (milliseconds <= 0) {
       return "00:00:00";
