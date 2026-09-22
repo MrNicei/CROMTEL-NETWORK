@@ -45,11 +45,15 @@ const [referralLoading, setReferralLoading] = useState(false);
   }
 
   async function loadUserData(userId) {
-    const { data: profileData } = await supabase
-      .from("profiles")
-      .select("username, referral_code, phone")
-      .eq("id", userId)
-      .maybeSingle();
+    const { data: profileData, error: profileError } = await supabase
+  .from("profiles")
+  .select("username, referral_code, phone")
+  .eq("id", userId)
+  .maybeSingle();
+
+if (profileError) {
+  console.error("Profile loading error:", profileError);
+}
 
     if (profileData) {
   setProfile(profileData);
