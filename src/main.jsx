@@ -53,6 +53,7 @@ const [referralLoading, setReferralLoading] = useState(false);
 
     if (profileData) {
   setProfile(profileData);
+  setReferralCode(profileData.referral_code || "");
 } else {
   setProfile({
     username:
