@@ -1,266 +1,335 @@
-
 * {
   box-sizing: border-box;
 }
 
-body {
+:root {
+  --bg: #070b14;
+  --bg-card: #111827;
+  --bg-card-2: #172238;
+  --border: #273653;
+  --text: #ffffff;
+  --muted: #9aa8bd;
+  --accent: #f4c84a;
+  --accent-2: #ff9f1c;
+  --green: #35d07f;
+  --red: #ff4b55;
+}
+
+html,
+body,
+#root {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
-  color: #172033;
+  min-height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+button,
+input {
+  font-family: inherit;
 }
 
 button {
   cursor: pointer;
 }
 
+header {
+  width: 100%;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: var(--bg);
+}
+
+header h1,
+header h2,
+header p {
+  margin: 0;
+}
+
+header h1 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+header button {
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.container {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 18px 110px;
+}
+
+.welcome {
+  display: none;
+}
+
+/* Balance card */
+
+.balance-card {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 8px auto 22px;
+  padding: 28px 20px 18px;
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background: linear-gradient(145deg, #1b2a43, #10192b);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+  text-align: center;
+}
+
+.balance-card::before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: -80px;
+  top: -90px;
+  border-radius: 50%;
+  background: rgba(244, 200, 74, 0.08);
+}
+
+.balance-card > span {
+  position: relative;
+  display: block;
+  color: #aebbd0;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.balance-card > strong {
+  position: relative;
+  display: block;
+  margin: 8px 0 24px;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.balance-info {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  overflow: hidden;
+  border-radius: 28px;
+  background: #0b1323;
+}
+
+.balance-info > div {
+  padding: 17px 8px;
+  text-align: center;
+  border-right: 1px solid #27334a;
+}
+
+.balance-info > div:last-child {
+  border-right: 0;
+}
+
+.balance-info span {
+  display: block;
+  margin-bottom: 8px;
+  color: #9caac0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.balance-info strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+/* Mining */
+
 .mining-card {
   width: 100%;
-  max-width: 700px;
   margin: 24px auto;
-  padding: 24px;
-  border-radius: 20px;
-  background: white;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  box-sizing: border-box;
+  padding: 22px 18px;
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background: var(--bg-card);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.22);
 }
 
 .mining-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 15px;
+  text-align: center;
 }
 
 .mining-header h2 {
   margin: 0;
+  color: var(--text);
   font-size: 24px;
 }
 
 .mining-header p {
-  margin-top: 8px;
-  color: #667085;
-}
-
-.status {
-  font-weight: 700;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.status.active {
-  color: #16a34a;
-}
-
-.status.inactive {
-  color: #667085;
+  margin: 8px 0 18px;
+  color: var(--muted);
+  font-size: 14px;
 }
 
 .mining-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-top: 20px;
+  margin: 18px 0;
 }
 
 .stat-box {
-  padding: 18px;
-  border-radius: 14px;
-  background: #f5f7fb;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #0d1525;
+  text-align: center;
 }
 
 .stat-box span {
   display: block;
-  font-size: 13px;
-  color: #667085;
   margin-bottom: 7px;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .stat-box strong {
-  font-size: 20px;
+  font-size: 18px;
+}
+
+.status {
+  font-weight: 800;
+}
+
+.status.active {
+  color: var(--green);
+}
+
+.status.inactive {
+  color: var(--muted);
 }
 
 .countdown-box {
-  text-align: center;
-  margin-top: 20px;
+  margin: 20px 0;
   padding: 20px;
-  border-radius: 16px;
-  background: #eef6ff;
+  border: 1px solid #3a4964;
+  border-radius: 20px;
+  background: #0a1220;
+  text-align: center;
 }
 
 .countdown-box span {
   display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
   font-size: 12px;
-  font-weight: 700;
-  color: #667085;
 }
 
 .countdown-box strong {
   display: block;
-  margin: 8px 0;
-  font-size: 36px;
+  font-size: 30px;
   letter-spacing: 2px;
 }
 
-.countdown-box small {
-  color: #667085;
-}
-
 .start-button,
-.stop-button {
+.stop-button,
+.referral-button {
   width: 100%;
-  border: none;
+  border: 0;
+  border-radius: 16px;
   padding: 16px;
-  margin-top: 20px;
-  border-radius: 12px;
-  font-size: 17px;
-  font-weight: 700;
-  cursor: pointer;
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .start-button {
-  background: #111827;
-  color: white;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #101010;
 }
 
 .stop-button {
-  background: #dc2626;
+  background: var(--red);
   color: white;
 }
 
 button:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
-@media (max-width: 600px) {
-  .mining-card {
-    padding: 18px;
-    border-radius: 16px;
-  }
+/* Make mining button feel like the large circular mining control */
 
-  .mining-header {
-    flex-direction: column;
-  }
-
-  .mining-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .countdown-box strong {
-    font-size: 30px;
-  }
-}
-
-/* Mobile Verification */
-
-.phone-card {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-}
-
-.phone-card-header {
+.mining-button {
+  position: relative;
+  width: 230px;
+  height: 230px;
+  margin: 24px auto;
+  border-radius: 50%;
+  border: 4px solid var(--red);
+  background:
+    radial-gradient(circle, #182238 0%, #101625 62%, #161c2b 100%);
+  color: white;
+  box-shadow:
+    0 0 0 8px rgba(255, 75, 85, 0.08),
+    0 0 0 18px rgba(39, 54, 83, 0.45),
+    inset 0 0 35px rgba(255, 75, 85, 0.08);
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 15px;
-  margin-bottom: 18px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-.phone-card h3 {
-  margin: 0 0 6px;
-  font-size: 20px;
+.mining-button::before {
+  content: "⚡";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -62%);
+  font-size: 54px;
+  color: var(--accent);
 }
 
-.phone-card p {
-  margin: 0;
-  color: #666;
-  font-size: 14px;
-  line-height: 1.5;
+.mining-button {
+  font-size: 0;
 }
 
-.phone-status {
-  background: #fff3cd;
-  color: #856404;
-  padding: 6px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  white-space: nowrap;
+.mining-button::after {
+  content: "START MINING";
+  position: absolute;
+  top: 61%;
+  left: 0;
+  right: 0;
+  font-size: 18px;
+  font-weight: 800;
 }
 
-.phone-status.verified {
-  background: #d4edda;
-  color: #155724;
+.mining-button.stop-button::after {
+  content: "STOP MINING";
 }
 
-.phone-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.phone-form input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 14px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 16px;
-  outline: none;
-}
-
-.phone-form input:focus {
-  border-color: #2563eb;
-}
-
-.verify-phone-button {
-  width: 100%;
-  border: none;
-  border-radius: 10px;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.verify-phone-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.verified-phone-box {
-  background: #f0fff4;
-  border-radius: 12px;
-  padding: 15px;
-}
-
-.verified-phone-box strong {
-  display: block;
-  margin-bottom: 7px;
-}
-
-.otp-message {
-  margin-bottom: 4px !important;
-}
-
-@media (max-width: 600px) {
-  .phone-card-header {
-    flex-direction: column;
-  }
-}
-
-/* Referral Program */
+/* Referral */
 
 .referral-card {
-  background: #ffffff;
-  border-radius: 18px;
+  width: 100%;
+  margin: 20px auto;
   padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: linear-gradient(145deg, #152238, #101827);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
 .referral-card-header {
@@ -274,27 +343,27 @@ button:disabled {
 
 .referral-card p {
   margin: 0;
-  color: #666;
+  color: var(--muted);
   font-size: 14px;
-  line-height: 1.5;
 }
 
 .referral-code-box {
-  background: #f5f7ff;
-  border-radius: 12px;
   padding: 15px;
   margin-bottom: 16px;
+  border-radius: 14px;
+  background: #0b1323;
 }
 
 .referral-code-box span {
   display: block;
-  color: #666;
-  font-size: 13px;
   margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .referral-code-box strong {
   display: block;
+  color: var(--accent);
   font-size: 20px;
   letter-spacing: 1px;
 }
@@ -302,65 +371,139 @@ button:disabled {
 .referral-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .referral-form input {
   width: 100%;
-  box-sizing: border-box;
   padding: 14px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  font-size: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
   outline: none;
+  background: #0b1323;
+  color: white;
+  font-size: 15px;
+}
+
+.referral-form input::placeholder {
+  color: #68758a;
 }
 
 .referral-form input:focus {
-  border-color: #2563eb;
+  border-color: var(--accent);
 }
 
 .referral-button {
-  width: 100%;
-  border: none;
-  border-radius: 10px;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.referral-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+  background: var(--accent);
+  color: #101010;
 }
 
 .referral-rewards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 18px;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 .referral-rewards > div {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 14px;
+  padding: 14px 8px;
+  border-radius: 14px;
+  background: #0b1323;
   text-align: center;
 }
 
 .referral-rewards strong {
   display: block;
+  color: var(--accent);
   font-size: 17px;
-  margin-bottom: 5px;
 }
 
 .referral-rewards span {
-  color: #666;
-  font-size: 12px;
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* Menu */
+
+.menu {
+  display: none;
+}
+
+/* Notice */
+
+.notice {
+  margin: 16px 0;
+  padding: 13px 15px;
+  border-radius: 12px;
+  background: #172238;
+  color: #b9c5d8;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Bottom navigation */
+
+main::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  height: 74px;
+  border-top: 1px solid #293752;
+  background: rgba(8, 13, 24, 0.97);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Hide old footer */
+
+footer {
+  display: none;
 }
 
 @media (max-width: 600px) {
+  header {
+    padding: 15px 18px;
+  }
+
+  .container {
+    padding: 0 14px 105px;
+  }
+
+  .balance-card {
+    padding: 25px 12px 14px;
+    border-radius: 24px;
+  }
+
+  .balance-card > strong {
+    font-size: 34px;
+  }
+
+  .balance-info {
+    border-radius: 24px;
+  }
+
+  .balance-info > div {
+    padding: 14px 4px;
+  }
+
+  .balance-info span {
+    font-size: 10px;
+  }
+
+  .balance-info strong {
+    font-size: 12px;
+  }
+
+  .mining-button {
+    width: 210px;
+    height: 210px;
+  }
+
   .referral-rewards {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
