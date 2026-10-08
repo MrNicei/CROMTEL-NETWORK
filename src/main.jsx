@@ -791,19 +791,20 @@ const verifyPhoneNumber = async () => {
 
         </section>
 
-        <section className="menu">
-
-          <div>👤 My Profile</div>
-
-          <div>💰 My Balance</div>
-
-          <div>⛏️ Mining Sessions</div>
-
-          <div>🔗 Referrals</div>
-
-          <div>📋 Transactions</div>
-
-        </section>
+        <nav className="bottom-nav">
+  <button type="button" className="nav-item active" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+    <span>⌂</span><small>Home</small>
+  </button>
+  <button type="button" className="nav-item" onClick={() => document.querySelector(".balance-card")?.scrollIntoView({ behavior: "smooth" })}>
+    <span>▣</span><small>Wallet</small>
+  </button>
+  <button type="button" className="nav-item" onClick={() => document.querySelector(".referral-card")?.scrollIntoView({ behavior: "smooth" })}>
+    <span>♧</span><small>Reference</small>
+  </button>
+  <button type="button" className="nav-item" onClick={() => document.querySelector(".welcome")?.scrollIntoView({ behavior: "smooth" })}>
+    <span>♙</span><small>Profile</small>
+  </button>
+</nav>
 
       </main>
 

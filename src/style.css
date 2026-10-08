@@ -507,3 +507,53 @@ footer {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* CROMTEL mobile bottom navigation */
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  height: 74px;
+  padding: 0 8px;
+  background: rgba(13, 20, 38, 0.97);
+  border-top: 1px solid #293752;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.bottom-nav .nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 100%;
+  padding: 5px 0;
+  border: 0;
+  background: transparent;
+  color: #9aa8bd;
+  cursor: pointer;
+}
+
+.bottom-nav .nav-item > span {
+  font-size: 27px;
+  line-height: 1;
+}
+
+.bottom-nav .nav-item small {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.bottom-nav .nav-item.active {
+  color: #f4c84a;
+}
+
+body {
+  padding-bottom: 85px;
+}
+
