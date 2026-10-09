@@ -54,18 +54,27 @@ const [referralLoading, setReferralLoading] = useState(false);
 if (profileError) {
   console.error("Profile loading error:", profileError);
 }
+console.log("PROFILE CHECK:", {
+    userId,
+      profileData,
+        profileError,
+        });
 
-    if (profileData) {
+if (profileData) {
   setProfile(profileData);
-  setReferralCode(profileData.referral_code || "");
-} else {
-  setProfile({
-    username:
-      session?.user?.user_metadata?.username ||
-      session?.user?.email?.split("@")[0] ||
-      "CROMTEL User"
-  });
-}
+    setReferralCode(profileData.referral_code || "");
+    } else {
+      setProfile({
+          username:
+                session?.user?.user_metadata?.username ||
+                      session?.user?.email?.split("@")[0] ||
+                            "CROMTEL User",
+                                referral_code: "",
+                                    phone: null,
+                                      });
+                                        setReferralCode("");
+                                        }
+
 
     const { data: balanceData } = await supabase
       .from("balances")
@@ -261,38 +270,37 @@ if (profileError) {
   }
 
   const applyReferralCode = async () => {
-  if (!referralInput.trim()) {
-    setMessage("Please enter a referral code.");
+  const code = referralInput.trim().toUpperCase();
+  if (!code) {
+    alert("Enter a referral code first.");
+    return;
+  }
+  if (!userId) {
+    alert("Please sign in first.");
     return;
   }
 
   setReferralLoading(true);
-  setMessage("");
-
-  const { data, error } = await supabase.rpc("apply_referral", {
-    p_referral_code: referralInput.trim(),
-  });
-
-  if (error) {
-    setMessage(`Referral error: ${error.message}`);
-    setReferralLoading(false);
-    return;
-  }
-
-  if (data?.success) {
-    await loadUserData(session.user.id);
+  try {
+    const { data, error } = await supabase.rpc("apply_referral_v2", {
+      p_referral_code: code,
+    });
+    if (error) throw error;
+    if (data?.success === false) {
+      throw new Error(data.message || data.error || "Referral code could not be applied.");
+    }
 
     setReferralInput("");
-
-    setMessage(
-      "Referral applied successfully! You received 200 CML and the referrer received 100 CML."
-    );
+    await loadUserData(userId);
+    alert("Referral code applied successfully. Your reward is 200 CML.");
+  } catch (error) {
+    alert(error.message || "Unable to apply referral code.");
+  } finally {
+    setReferralLoading(false);
   }
-
-  setReferralLoading(false);
 };
 
-  const sendPhoneVerification = async () => {
+const sendPhoneVerification = async () => {
   if (!phone.trim()) {
     setMessage("Please enter your mobile number.");
     return;
@@ -658,7 +666,7 @@ const verifyPhoneNumber = async () => {
 
   <div className="referral-code-box">
   <span>Your Referral Code</span>
-  <strong>{profile?.referral_code || "Loading..."}</strong>
+  <strong>{referralCode || "Loading..."}</strong>
 </div>
 
   <div className="referral-form">
@@ -791,19 +799,20 @@ const verifyPhoneNumber = async () => {
 
         </section>
 
-        <section className="menu">
-
-          <div>👤 My Profile</div>
-
-          <div>💰 My Balance</div>
-
-          <div>⛏️ Mining Sessions</div>
-
-          <div>🔗 Referrals</div>
-
-          <div>📋 Transactions</div>
-
-        </section>
+        <nav className="bottom-nav">
+  <button type="button" className="nav-item active" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+    <span>⌂</span><small>Home</small>
+  </button>
+  <button type="button" className="nav-item" onClick={() => document.querySelector(".balance-card")?.scrollIntoView({ behavior: "smooth" })}>
+    <span>▣</span><small>Wallet</small>
+  </button>
+  <button type="button" className="nav-item" onClick={() => document.querySelector(".referral-card")?.scrollIntoView({ behavior: "smooth" })}>
+    <span>♧</span><small>Reference</small>
+  </button>
+  <button type="button" className="nav-item" onClick={() => document.querySelector(".welcome")?.scrollIntoView({ behavior: "smooth" })}>
+    <span>♙</span><small>Profile</small>
+  </button>
+</nav>
 
       </main>
 
