@@ -62,7 +62,7 @@ console.log("PROFILE CHECK:", {
 
 if (profileData) {
   setProfile(profileData);
-    setReferralCode(profileData.referral_code || "");
+    setReferralCode(profileData.referral_code || ("CROM" + userId.replace(/-/g, "").slice(0, 8).toUpperCase()));
     } else {
       setProfile({
           username:
@@ -72,7 +72,7 @@ if (profileData) {
                                 referral_code: "",
                                     phone: null,
                                       });
-                                        setReferralCode("");
+                                        setReferralCode("CROM" + userId.replace(/-/g, "").slice(0, 8).toUpperCase());
                                         }
 
 
