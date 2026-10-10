@@ -270,37 +270,45 @@ if (profileData) {
   }
 
   const applyReferralCode = async () => {
-  const code = referralInput.trim().toUpperCase();
-  if (!code) {
-    alert("Enter a referral code first.");
-    return;
-  }
-  if (!userId) {
-    alert("Please sign in first.");
-    return;
-  }
+    const code = referralInput.trim().toUpperCase();
 
-  setReferralLoading(true);
-  try {
-    const { data, error } = await supabase.rpc("apply_referral_v2", {
-      p_referral_code: code,
-    });
-    if (error) throw error;
-    if (data?.success === false) {
-      throw new Error(data.message || data.error || "Referral code could not be applied.");
+    if (!code) {
+      setMessage("Please enter a referral code.");
+      return;
     }
 
-    setReferralInput("");
-    await loadUserData(userId);
-    alert("Referral code applied successfully. Your reward is 200 CML.");
-  } catch (error) {
-    alert(error.message || "Unable to apply referral code.");
-  } finally {
-    setReferralLoading(false);
-  }
-};
+    if (!userId) {
+      setMessage("Please sign in before applying a referral code.");
+      return;
+    }
 
-const sendPhoneVerification = async () => {
+    setReferralLoading(true);
+    setMessage("");
+
+    try {
+      const { data, error } = await supabase.rpc("apply_referral_v2", {
+        p_referral_code: code,
+      });
+
+      if (error) throw error;
+
+      const result = Array.isArray(data) ? data[0] : data;
+
+      if (!result || result.success !== true) {
+        throw new Error(result?.message || result?.error || "Referral code could not be applied.");
+      }
+
+      setReferralInput("");
+      await loadUserData(userId);
+      setMessage(result.message || "Referral code applied successfully. You received 200 CML.");
+    } catch (error) {
+      setMessage(error?.message || "Unable to apply referral code.");
+    } finally {
+      setReferralLoading(false);
+    }
+  };
+
+  const sendPhoneVerification = async () => {
   if (!phone.trim()) {
     setMessage("Please enter your mobile number.");
     return;
