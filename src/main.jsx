@@ -844,7 +844,7 @@ const verifyPhoneNumber = async () => {
   <button type="button" className="nav-item" onClick={() => document.querySelector(".balance-card")?.scrollIntoView({ behavior: "smooth" })}>
     <span>▣</span><small>Wallet</small>
   </button>
-  <button type="button" className="nav-item" onClick={() => document.querySelector(".referral-card")?.scrollIntoView({ behavior: "smooth" })}>
+  <button type="button" className="nav-item" onClick={() => setActivePage("reference")}>
     <span>♧</span><small>Reference</small>
   </button>
   <button type="button" className="nav-item" onClick={() => document.querySelector(".welcome")?.scrollIntoView({ behavior: "smooth" })}>
