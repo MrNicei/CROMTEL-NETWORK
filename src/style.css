@@ -571,41 +571,51 @@ body {
   position: fixed;
   inset: 0;
   z-index: 2000;
+  display: flex;
+  justify-content: flex-start;
   background: rgba(0, 0, 0, 0.55);
 }
 
 .side-drawer {
   box-sizing: border-box;
-  width: min(82vw, 340px);
+  width: 290px;
+  max-width: 85vw;
+  height: 100vh;
   height: 100dvh;
-  overflow-y: auto;
-  padding: 22px 16px;
-  background: #fff;
-  color: #17243a;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  overflow: hidden;
+  background: #fff;
+  color: #17243a;
   box-shadow: 8px 0 30px rgba(0, 0, 0, 0.18);
 }
 
 .drawer-heading {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding-bottom: 18px;
+  padding-bottom: 14px;
   border-bottom: 1px solid #e5e7eb;
-  margin-bottom: 8px;
 }
 
 .drawer-heading button,
 .drawer-link,
 .drawer-logout {
+  flex: 0 0 auto;
+  width: 100%;
+  margin-top: 0;
   border: 0;
   border-radius: 10px;
   padding: 13px 12px;
+  background: #b81e2d;
+  color: #fff;
   text-align: left;
   font: inherit;
+  font-weight: 700;
   cursor: pointer;
 }
 
@@ -645,4 +655,44 @@ body {
 
 .reference-page {
   padding-bottom: 20px;
+}
+
+/* CROMTEL menu layout */
+.drawer-menu {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 2px 16px;
+}
+
+.drawer-heading {
+  flex-shrink: 0;
+}
+
+.drawer-logout {
+  flex-shrink: 0;
+  margin-top: 0 !important;
+}
+
+.drawer-link {
+  display: block;
+  flex: 0 0 auto;
+  width: 100%;
+  min-height: 44px;
+  background: #f4f6f9;
+  color: #17243a;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.drawer-link:active {
+  background: #e5eaf2;
 }
