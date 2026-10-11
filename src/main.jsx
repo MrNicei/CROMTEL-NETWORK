@@ -269,7 +269,26 @@ if (profileData) {
   }
 
   async function logout() {
-    await supabase.auth.signOut();
+    if (loading) return;
+    setLoading(true);
+    setMessage("");
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      setMenuOpen(false);
+      setActivePage("home");
+      setSession(null);
+      setProfile(null);
+      setBalance(0);
+      setMining(false);
+      setMiningId(null);
+      setMiningEndsAt(null);
+      setTimeRemaining(0);
+    } catch (error) {
+      setMessage(error?.message || "Logout failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   const applyReferralCode = async () => {
@@ -844,7 +863,12 @@ const verifyPhoneNumber = async () => {
   <button type="button" className={`nav-item ${activePage === "wallet" ? "active" : ""}`} onClick={() => setActivePage("wallet")}>
     <span>▣</span><small>Wallet</small>
   </button>
-  <button type="button" className={`nav-item ${activePage === "reference" ? "active" : ""}`} onClick={() => { setActivePage("reference"); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+  <button type="button" className={`nav-item ${activePage === "reference" ? "active" : ""}`} onClick={() => {
+        setMenuOpen(false);
+        setMessage("");
+        setActivePage("reference");
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }}>
     <span>♧</span><small>Reference</small>
   </button>
   <button type="button" className={`nav-item ${activePage === "profile" ? "active" : ""}`} onClick={() => setActivePage("profile")}>
