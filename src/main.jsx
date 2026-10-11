@@ -23,10 +23,13 @@ function App() {
 const [phoneOtp, setPhoneOtp] = useState("");
 const [phoneVerificationStep, setPhoneVerificationStep] = useState("phone");
 const [phoneLoading, setPhoneLoading] = useState(false);
-  
+
 const [referralCode, setReferralCode] = useState("");
 const [referralInput, setReferralInput] = useState("");
 const [referralLoading, setReferralLoading] = useState(false);
+  const [activePage, setActivePage] = useState("home");
+  const [menuOpen, setMenuOpen] = useState(false);
+
   function formatTimeRemaining(milliseconds) {
     if (milliseconds <= 0) {
       return "00:00:00";
@@ -604,19 +607,31 @@ const verifyPhoneNumber = async () => {
           <h1>CROMTEL NETWORK</h1>
           <p>APPLICATION</p>
         </div>
+        <button type="button" className="menu-toggle" onClick={() => setMenuOpen(true)} aria-label="Open menu">☰</button>
 
-        <button
-          type="button"
-          onClick={logout}
-          disabled={loading}
-        >
-          Logout
-        </button>
 
       </header>
 
-      <main className="container">
 
+    {menuOpen && (
+      <div className="drawer-overlay" onClick={() => setMenuOpen(false)}>
+        <aside className="side-drawer" onClick={(e) => e.stopPropagation()}>
+          <div className="drawer-heading">
+            <strong>CROMTEL NETWORK</strong>
+            <button type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu">✕</button>
+          </div>
+          {["Guide", "Social channels", "Official website", "Help center and support", "Transactions", "White paper", "Blockchain", "Apps / dApps", "Settings"].map((item) => (
+            <button type="button" className="drawer-link" key={item} onClick={() => { setMessage(item + " will be available here soon."); setMenuOpen(false); }}>
+              {item}
+            </button>
+          ))}
+          <button type="button" className="drawer-logout" onClick={() => { setMenuOpen(false); logout(); }} disabled={loading}>Logout</button>
+        </aside>
+      </div>
+    )}
+<main className="container">
+    {activePage === "home" && (
+      <>
         <section className="welcome">
 
           <h2>
@@ -664,50 +679,7 @@ const verifyPhoneNumber = async () => {
 
         </section>
 
-        <div className="referral-card">
-  <div className="referral-card-header">
-    <div>
-      <h3>Referral Program</h3>
-      <p>Invite friends and earn CML rewards.</p>
-    </div>
-  </div>
 
-  <div className="referral-code-box">
-  <span>Your Referral Code</span>
-  <strong>{referralCode || "Loading..."}</strong>
-</div>
-
-  <div className="referral-form">
-    <input
-      type="text"
-      value={referralInput}
-      onChange={(e) => setReferralInput(e.target.value.toUpperCase())}
-      placeholder="Enter referral code"
-      disabled={referralLoading}
-    />
-
-    <button
-      type="button"
-      onClick={applyReferralCode}
-      disabled={referralLoading}
-      className="referral-button"
-    >
-      {referralLoading ? "Applying..." : "Apply Referral Code"}
-    </button>
-  </div>
-
-  <div className="referral-rewards">
-    <div>
-      <strong>+100 CML</strong>
-      <span>For your referrer</span>
-    </div>
-
-    <div>
-      <strong>+200 CML</strong>
-      <span>Your welcome bonus</span>
-    </div>
-  </div>
-</div>
 
         <section className="mining-card">
 
@@ -807,8 +779,66 @@ const verifyPhoneNumber = async () => {
 
         </section>
 
-        <nav className="bottom-nav">
-  <button type="button" className="nav-item active" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+    <section className="advertisements-card">
+      <h2>Advertisements</h2>
+      <div className="advertisement-slot">Advertisement space 1</div>
+      <div className="advertisement-slot">Advertisement space 2</div>
+      <div className="advertisement-slot">Advertisement space 3</div>
+    </section>
+
+      </>
+    )}
+
+    {activePage === "reference" && (
+      <section className="reference-page">
+        <div className="referral-card">
+  <div className="referral-card-header">
+    <div>
+      <h3>Referral Program</h3>
+      <p>Invite friends and earn CML rewards.</p>
+    </div>
+  </div>
+
+  <div className="referral-code-box">
+  <span>Your Referral Code</span>
+  <strong>{referralCode || "Loading..."}</strong>
+</div>
+
+  <div className="referral-form">
+    <input
+      type="text"
+      value={referralInput}
+      onChange={(e) => setReferralInput(e.target.value.toUpperCase())}
+      placeholder="Enter referral code"
+      disabled={referralLoading}
+    />
+
+    <button
+      type="button"
+      onClick={applyReferralCode}
+      disabled={referralLoading}
+      className="referral-button"
+    >
+      {referralLoading ? "Applying..." : "Apply Referral Code"}
+    </button>
+  </div>
+
+  <div className="referral-rewards">
+    <div>
+      <strong>+100 CML</strong>
+      <span>For your referrer</span>
+    </div>
+
+    <div>
+      <strong>+200 CML</strong>
+      <span>Your welcome bonus</span>
+    </div>
+  </div>
+</div>
+      </section>
+    )}
+<nav className="bottom-nav">
+  <button type="button" className={`nav-item ${activePage === "home" ? "active" : ""}`} onClick={() => setActivePage("home")}>
     <span>⌂</span><small>Home</small>
   </button>
   <button type="button" className="nav-item" onClick={() => document.querySelector(".balance-card")?.scrollIntoView({ behavior: "smooth" })}>
