@@ -557,3 +557,92 @@ body {
   padding-bottom: 85px;
 }
 
+
+.menu-toggle {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 28px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.side-drawer {
+  box-sizing: border-box;
+  width: min(82vw, 340px);
+  height: 100%;
+  overflow-y: auto;
+  padding: 22px 16px;
+  background: #fff;
+  color: #17243a;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 8px 0 30px rgba(0, 0, 0, 0.18);
+}
+
+.drawer-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 8px;
+}
+
+.drawer-heading button,
+.drawer-link,
+.drawer-logout {
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 12px;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.drawer-heading button {
+  background: #eef2f7;
+}
+
+.drawer-link {
+  background: #f4f6f9;
+  color: #17243a;
+}
+
+.drawer-logout {
+  margin-top: auto;
+  background: #8b1e2d;
+  color: #fff;
+}
+
+.advertisements-card {
+  margin-top: 18px;
+  padding: 18px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+  background: #f4f4f4;
+}
+
+.advertisement-slot {
+  margin-top: 12px;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #fff;
+  color: #555;
+}
+
+.reference-page {
+  padding-bottom: 20px;
+}
