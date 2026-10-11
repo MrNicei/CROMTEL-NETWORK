@@ -644,7 +644,7 @@ const verifyPhoneNumber = async () => {
               {item}
             </button>
           ))}
-          <button type="button" className="drawer-logout" onClick={() => { setMenuOpen(false); logout(); }} disabled={loading}>Logout</button>
+          <button type="button" className="drawer-logout" onClick={logout} disabled={loading}>Logout</button>
         </aside>
       </div>
     )}
