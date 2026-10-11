@@ -269,7 +269,26 @@ if (profileData) {
   }
 
   async function logout() {
-    await supabase.auth.signOut();
+    if (loading) return;
+    setLoading(true);
+    setMessage("");
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      setMenuOpen(false);
+      setActivePage("home");
+      setSession(null);
+      setProfile(null);
+      setBalance(0);
+      setMining(false);
+      setMiningId(null);
+      setMiningEndsAt(null);
+      setTimeRemaining(0);
+    } catch (error) {
+      setMessage(error?.message || "Logout failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   const applyReferralCode = async () => {
@@ -305,7 +324,7 @@ if (profileData) {
       await loadUserData(userId);
       setMessage(result.message || "Referral code applied successfully. You received 200 CML.");
     } catch (error) {
-      setMessage(error?.message || "Unable to apply referral code.");
+      setMessage([error?.message, error?.code, error?.details, error?.hint].filter(Boolean).join(" | ") || "Unable to apply referral code.");
     } finally {
       setReferralLoading(false);
     }
@@ -841,13 +860,18 @@ const verifyPhoneNumber = async () => {
   <button type="button" className={`nav-item ${activePage === "home" ? "active" : ""}`} onClick={() => setActivePage("home")}>
     <span>⌂</span><small>Home</small>
   </button>
-  <button type="button" className="nav-item" onClick={() => document.querySelector(".balance-card")?.scrollIntoView({ behavior: "smooth" })}>
+  <button type="button" className={`nav-item ${activePage === "wallet" ? "active" : ""}`} onClick={() => setActivePage("wallet")}>
     <span>▣</span><small>Wallet</small>
   </button>
-  <button type="button" className="nav-item" onClick={() => setActivePage("reference")}>
+  <button type="button" className={`nav-item ${activePage === "reference" ? "active" : ""}`} onClick={() => {
+        setMenuOpen(false);
+        setMessage("");
+        setActivePage("reference");
+        window.scrollTo({ top: 0, behavior: "auto" });
+      }}>
     <span>♧</span><small>Reference</small>
   </button>
-  <button type="button" className="nav-item" onClick={() => document.querySelector(".welcome")?.scrollIntoView({ behavior: "smooth" })}>
+  <button type="button" className={`nav-item ${activePage === "profile" ? "active" : ""}`} onClick={() => setActivePage("profile")}>
     <span>♙</span><small>Profile</small>
   </button>
 </nav>
