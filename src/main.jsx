@@ -642,6 +642,8 @@ const verifyPhoneNumber = async () => {
 <button type="button" className="drawer-logout" onClick={logout} disabled={loading}>Logout</button>
 
 
+
+
           {["Guide", "Social channels", "Official website", "Help center and support", "Transactions", "White paper", "Blockchain", "Apps / dApps", "Settings"].map((item) => (
             <button type="button" className="drawer-link" key={item} onClick={() => { setMessage(item + " will be available here soon."); setMenuOpen(false); }}>
               {item}
