@@ -626,50 +626,13 @@ const verifyPhoneNumber = async () => {
           <h1>CROMTEL NETWORK</h1>
           <p>APPLICATION</p>
         </div>
-        <button type="button" className="menu-toggle" onClick={() => setMenuOpen(true)} aria-label="Open menu">☰</button>
+        
 
 
       </header>
 
 
-    {menuOpen && (
-  <div className="drawer-overlay" onClick={() => setMenuOpen(false)}>
-    <aside className="side-drawer" onClick={(e) => e.stopPropagation()}>
-      <div className="drawer-heading">
-        <strong>CROMTEL NETWORK</strong>
-        <button
-          type="button"
-          aria-label="Close menu"
-          onClick={() => setMenuOpen(false)}
-        >×</button>
-      </div>
-
-      <button
-        type="button"
-        className="drawer-logout"
-        onClick={logout}
-        disabled={loading}
-      >{loading ? "Logging out…" : "Logout"}</button>
-
-      <nav className="drawer-menu" aria-label="Main menu">
-        {["Guide", "Social channels", "Official website", "Help center and support", "Transactions", "White paper", "Blockchain", "Apps / dApps", "Settings"].map((item) => (
-          <button
-            type="button"
-            className="drawer-link"
-            key={item}
-            onClick={() => {
-              setMessage(item + " will be available here soon.");
-              setMenuOpen(false);
-            }}
-          >
-            {item}
-          </button>
-        ))}
-      </nav>
-    </aside>
-  </div>
-)}
-<main className="container">
+    <main className="container">
     {activePage === "home" && (
       <>
         <section className="welcome">
