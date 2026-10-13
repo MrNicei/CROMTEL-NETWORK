@@ -28,7 +28,7 @@ const [referralCode, setReferralCode] = useState("");
 const [referralInput, setReferralInput] = useState("");
 const [referralLoading, setReferralLoading] = useState(false);
   const [activePage, setActivePage] = useState("home");
-  const [menuOpen, setMenuOpen] = useState(false);
+  
 
   function formatTimeRemaining(milliseconds) {
     if (milliseconds <= 0) {
@@ -275,7 +275,6 @@ if (profileData) {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      setMenuOpen(false);
       setActivePage("home");
       setSession(null);
       setProfile(null);
@@ -848,7 +847,6 @@ const verifyPhoneNumber = async () => {
     <span>▣</span><small>Wallet</small>
   </button>
   <button type="button" className={`nav-item ${activePage === "reference" ? "active" : ""}`} onClick={() => {
-        setMenuOpen(false);
         setMessage("");
         setActivePage("reference");
         window.scrollTo({ top: 0, behavior: "auto" });

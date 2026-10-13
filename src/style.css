@@ -558,81 +558,23 @@ body {
 }
 
 
-.menu-toggle {
-  border: 0;
-  background: transparent;
-  color: inherit;
-  font-size: 28px;
-  padding: 8px 12px;
-  cursor: pointer;
-}
 
-.drawer-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  display: flex;
-  justify-content: flex-start;
-  background: rgba(0, 0, 0, 0.55);
-}
 
-.side-drawer {
-  box-sizing: border-box;
-  width: 290px;
-  max-width: 85vw;
-  height: 100vh;
-  height: 100dvh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow: hidden;
-  background: #fff;
-  color: #17243a;
-  box-shadow: 8px 0 30px rgba(0, 0, 0, 0.18);
-}
 
-.drawer-heading {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid #e5e7eb;
-}
+
+
+
+
 
 .drawer-heading button,
 .drawer-link,
-.drawer-logout {
-  flex: 0 0 auto;
-  width: 100%;
-  margin-top: 0;
-  border: 0;
-  border-radius: 10px;
-  padding: 13px 12px;
-  background: #b81e2d;
-  color: #fff;
-  text-align: left;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}
 
-.drawer-heading button {
-  background: #eef2f7;
-}
 
-.drawer-link {
-  background: #f4f6f9;
-  color: #17243a;
-}
 
-.drawer-logout {
-  margin-top: auto;
-  background: #8b1e2d;
-  color: #fff;
-}
+
+
+
+
 
 .advertisements-card {
   margin-top: 18px;
@@ -657,7 +599,7 @@ body {
   padding-bottom: 20px;
 }
 
-/* CROMTEL menu layout */
+
 .drawer-menu {
   display: flex;
   flex: 1 1 auto;
@@ -669,30 +611,10 @@ body {
   padding: 4px 2px 16px;
 }
 
-.drawer-heading {
-  flex-shrink: 0;
-}
 
-.drawer-logout {
-  flex-shrink: 0;
-  margin-top: 0 !important;
-}
 
-.drawer-link {
-  display: block;
-  flex: 0 0 auto;
-  width: 100%;
-  min-height: 44px;
-  background: #f4f6f9;
-  color: #17243a;
-  border: 0;
-  border-radius: 10px;
-  padding: 12px;
-  text-align: left;
-  font: inherit;
-  cursor: pointer;
-}
 
-.drawer-link:active {
-  background: #e5eaf2;
-}
+
+
+
+
